@@ -1,2 +1,2 @@
 # servoventil
-Servoventil napájený z 5ks AA baterií řízený procesorem ATTINY 4313
+Servoventil pro zalévací systém řízený procesorem ATTINY 4313 napájený z baterií.
