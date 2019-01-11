@@ -1,6 +1,7 @@
-attiny4313 (cpu) 1ks
-https://www.tme.eu/cz/details/attiny4313-su/rodina-avr-8-bitu/microchip-atmel//
-a=24,- SO20-W
+
+ATTINY1634-SU (CPU) 
+https://www.tme.eu/cz/details/attiny1634-su/rodina-avr-8-bitu/microchip-atmel/
+a=34,- SO20-W
 
 PCF8563t (RTC s alarmem) 1ks
 https://www.tme.eu/cz/details/pcf8563t-smd/obvody-rtc/nxp/pcf8563tf4118/

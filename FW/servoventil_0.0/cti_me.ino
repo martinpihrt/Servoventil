@@ -1,11 +1,8 @@
 /* 
- * Pro podporu procesoru ATTINY4313 je potřeba do Arduino IDE doplnit podporu z :http://drazzy.com/package_drazzy.com_index.json
+ * Pro podporu procesoru ATTINY 1634 je potřeba do Arduino IDE doplnit podporu z :http://drazzy.com/package_drazzy.com_index.json (https://github.com/SpenceKonde/ATTinyCore/blob/master/Installation.md)
  * Nastavení pojistek: 
-   1 MHZ interní oscilátor
-   BOD zakázáno
-   Sec timer no
-   LTO disabled
-   Uefuse:w:0xFF:m -Uhfuse:w:0b10011111:m -Ulfuse:w:0x64:m
+   8 MHZ interní oscilátor
+   ATTinyCore\hardware\avr\1.2.2/avrdude.conf -v -pattiny1634 -cstk500v2 -Pusb -e -Uefuse:w:0b11111110:m -Uhfuse:w:0b11010110:m -Ulfuse:w:0xE2:m 
 
    Verze FW:
    FW 0.0 Martin Pihrt - založení projektu

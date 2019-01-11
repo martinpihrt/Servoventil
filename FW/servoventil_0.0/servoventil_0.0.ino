@@ -1,20 +1,20 @@
 // záložka cti_me!
 #define FW    "0.0-10.1.19"  // aktuální verze FW 
 
-// přiřazení pinů na procesoru ATTINY4313
-//#define SCL_PIN             // PB7 pin 19 pro info
-//#define SDA_PIN             // PB5 pin 17 pro info
-//#define RX_PIN              // PD0 pin 2  pro info
-//#define TX_PIN              // PD1 pin 3  pro info
-#define PWR_ON_PIN            // PD6 pin 11 spíná samodržení napájení procesoru
-#define PWR_SERVO_ON_PIN      // PD5 pin 9  spíná napájení serva
-#define SERVO_PIN             // PD4 pin 8  výstup pro servo
-#define LOW_BAT_PIN           // PD3 pin 7  vstup z baterie, že je málé napájení baterie
-#define LED_LOWBAT_PIN        // PB4 pin 16 výstup pro LED, že je málé napájení baterie
-#define SW1_PIN               // PB3 pin 15 vstup DIP přepínač 1
-#define SW2_PIN               // PB2 pin 14 vstup DIP přepínač 2
-#define SW3_PIN               // PB1 pin 13 vstup DIP přepínač 3
-#define SW4_PIN               // PB0 pin 12 vstup DIP přepínač 4
+// přiřazení pinů na procesoru ATTINY 1634
+//#define SCL_PIN          12 // PC1 pin 16 pro info
+//#define SDA_PIN          16 // PB1 pin 20 pro info
+//#define RX_PIN           1  // PA7 pin 2  pro info
+//#define TX_PIN           0  // PB0 pin 1  pro info
+#define PWR_SERVO_ON_PIN   2  // PA6 pin 3  spíná napájení serva
+#define SERVO_PIN          3  // PA5 pin 4  výstup pro servo PWM
+#define PWR_ON_PIN         4  // PA4 pin 5  spíná samodržení napájení procesoru
+#define LOW_BAT_PIN        5  // PA3 pin 6  vstup z baterie, že je málé napájení baterie
+#define LED_LOWBAT_PIN     6  // PA2 pin 7  výstup pro LED, že je málé napájení baterie
+#define SW1_PIN            7  // PA1 pin 8  vstup DIP přepínač 1
+#define SW2_PIN            8  // PA0 pin 9  vstup DIP přepínač 2
+#define SW3_PIN            9  // PC5 pin 12 vstup DIP přepínač 3
+#define SW4_PIN            10 // PC4 pin 13 vstup DIP přepínač 4
 
 // UART
 #define USE_UART      // pokud není zakomentované používat sériovou linku (pro zakázání zakomentuj//)
@@ -26,7 +26,7 @@
 
 
 //*******************************************************************
-#ifdef DEBUG     // pro pomocné výpisy   
+#ifdef DEBUG    
   #define DPRINT(...)    Serial.print(__VA_ARGS__)     
   #define DPRINTLN(...)  Serial.println(__VA_ARGS__)   
 #else
@@ -34,16 +34,14 @@
   #define DPRINTLN(...)   
 #endif
 
-/*
-#ifdef USE_SERVO // pokud je použito servo
-  #include <Servo.h>
-  Servo servo;
+#ifdef USE_SERVO 
+  // TODO
 #endif
-*/
+
 
 void setup() { // nastavení
-  //pinMode(PWR_ON_PIN,OUTPUT);
-  //digitalWrite(PWR_ON_PIN,HIGH); // podržet napájení
+  pinMode(PWR_ON_PIN,OUTPUT);
+  digitalWrite(PWR_ON_PIN,HIGH); 
   
   #ifdef USE_UART
      Serial.begin(BAUD);
@@ -52,14 +50,12 @@ void setup() { // nastavení
      DPRINT("FW:");
      DPRINTLN(FW);
   #endif  
-  /*
+
   #ifdef USE_SERVO
-     pinMode(PWR_SERVO_ON_PIN, OUTPUT);
-     servo.attach(SERVO_PIN);
-     //servo.detach(SERVO_PIN); // odpojit PWM serva
-     //servo.write(0); // 0-180
+     pinMode(PWR_SERVO_ON_PIN,OUTPUT);
+     // TODO
   #endif
-*/
+
   #ifdef DEBUG
      DPRINTLN("INIT...OK");      
   #endif
