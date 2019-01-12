@@ -70,3 +70,10 @@ a=6,- DO214AB SMD
 ICSP konektor 1ks
 https://www.tme.eu/cz/details/zl231-10pg/konektory-idc/connfly/ds1013-10ssib1/
 a=2,2 2x5 pin THT
+
+TODO:
+doplnit ostatní díly  po kontrole schema
+držák baterie, rezistory...
+
+PCF8563 nemá baterii - kurva! dát jiný typ jak jsem si nevšiml - práce kvapná
+vrátit DS3231 ale levnìjší modulek
