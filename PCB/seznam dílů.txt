@@ -3,9 +3,11 @@ ATTINY1634-SU (CPU)
 https://www.tme.eu/cz/details/attiny1634-su/rodina-avr-8-bitu/microchip-atmel/
 a=34,- SO20-W
 
-PCF8563t (RTC s alarmem) 1ks
-https://www.tme.eu/cz/details/pcf8563t-smd/obvody-rtc/nxp/pcf8563tf4118/
-a=21,- SO8
+DS3231 (RTC)
+https://www.tme.eu/cz/details/oky3393/moduly-rtc/okystar/
+a=48,- SO16-W odpájet z desky a dát do zaøízení jinak
+https://www.tme.eu/cz/details/ds3231sn/obvody-rtc/maxim-dallas/ds3231sn_/ (a=210,-)
+
 
 MCP1825S-3302E/DB (stabil) 1ks
 https://www.tme.eu/cz/details/mcp1825s-3302ed/stabilizatory-napeti-neregulovane-ldo/microchip-technology/mcp1825s-3302edb/
@@ -74,6 +76,3 @@ a=2,2 2x5 pin THT
 TODO:
 doplnit ostatní díly  po kontrole schema
 držák baterie, rezistory...
-
-PCF8563 nemá baterii - kurva! dát jiný typ jak jsem si nevšiml - práce kvapná
-vrátit DS3231 ale levnìjší modulek

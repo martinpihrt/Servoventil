@@ -2,8 +2,8 @@
 #define FW    "0.0-10.1.19"  // aktuální verze FW 
 
 // přiřazení pinů na procesoru ATTINY 1634
-//#define SCL_PIN          12 // PC1 pin 16 pro info
-//#define SDA_PIN          16 // PB1 pin 20 pro info
+//#define SCK_SCL_PIN      12 // PC1 pin 16 pro info  (SCK je na stejném vodiči jako SCL)
+//#define MOSI_SDA_PIN     16 // PB1 pin 20 pro info  (MOSI je na stejném vodiči jako SDA)
 //#define RX_PIN           1  // PA7 pin 2  pro info
 //#define TX_PIN           0  // PB0 pin 1  pro info
 #define PWR_SERVO_ON_PIN   2  // PA6 pin 3  spíná napájení serva
