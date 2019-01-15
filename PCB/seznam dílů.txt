@@ -25,7 +25,6 @@ IRF7416PBF P-MOSFET (spinani serva) 1ks
 https://www.tme.eu/cz/details/irf7416pbf/tranzistory-s-kanalem-p-smd/infineon-irf/
 a=13,- SO8
 
------------
 2k7 1206 1ks pro mereni bat
 https://www.tme.eu/cz/details/smd1206-2k7-1%25/rezistory-smd-1206/royal-ohm/1206s4f2701t5e/
 a=0,6,- 1206
@@ -74,5 +73,4 @@ https://www.tme.eu/cz/details/zl231-10pg/konektory-idc/connfly/ds1013-10ssib1/
 a=2,2 2x5 pin THT
 
 TODO:
-doplnit ostatní díly  po kontrole schema
-držák baterie, rezistory...
+upravit dle BOM po otestování desky

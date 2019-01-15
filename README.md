@@ -12,21 +12,31 @@ TODO doplň sám jak to myslíš.
 * zařízení lze kdykoliv probudit stisknutím tlačítka. Pokud bylo servo zavřené -> otevře se a opačně (jako ruční režim?)
 TODO Seriová linka bude fungovat pouze po dobu dokud je držené napájení z CPU do MOSFETu
 
-# Osazení desky spojů
+## Osazení desky spojů
 Deska je ke stažení volně na webu https://www.allpcb.com/, kde byla vyráběna pod [tímto odkazem](https://doplnit) si lze desku objednat. První čím začneme je osazení SMD součástek z horní strany (TOP) a následně spodní (BOTTOM) strany. Po osazení SMD součástek zapájíme z horní strany THT (drátové) součástky. Před připojením napájení (baterie, nebo ICSP konektor) je potřeba desku pečlivě zkontrolovat na případné zkraty, nebo otočení součástek. Značení SMD rezistorů je následující: příklad text na rezistoru 1014 znamená 101 + 4 nuly tedy 101 0000 Ohmů, nebo 202 znamená 20 + 2 nuly tedy 20 00 Ohmů (2k).
-Před připojením baterií (5ks AA) připojíme (pokud máme) napájecí zdroj s proudovou pojistkou, kterou nastavíme na 100 mA při 6V. Servo není zatím k desce připojeno. Stiskneme a držíme tlačítko SW1 zmačknuté. Multimetrem (voltmetrem) změříme napětí na procesoru, nebo RTC, nebo stabilizátoru 3,3V. Napětí musí být cca 3,3V. Následně lze připojit programovací konektor ICSP našeho programátoru.
-TODO foto
+Před připojením baterií (5ks AA) připojíme (pokud máme) napájecí zdroj s proudovou pojistkou, kterou nastavíme na 100 mA při 6V. Servo není zatím k desce připojeno. Stiskneme a držíme tlačítko SW1 zmačknuté. Multimetrem (voltmetrem) změříme napětí na procesoru, nebo RTC, nebo stabilizátoru 3,3V. Napětí musí být cca 3,3V.
 
-# Přidání podpory pro procesor ATTINY 1634 do Arduino IDE
+## Přidání podpory pro procesor ATTINY 1634 do Arduino IDE
 Spustíme nainstalované Arduino v našem počítači a otevřeme záložku "Soubor -> vlastnosti" a do správce dalších desek URL přidáme tento odkaz
 http://drazzy.com/package_drazzy.com_index.json ze stránek [GitHub drazzy](https://github.com/SpenceKonde/ATTinyCore/blob/master/Installation.md). Následně potvrdíme tlačítkem "OK". Otevřeme v Arduinu záložku "Nástroje -> Vývojová deska -> Manažér desek" v otevřeném seznamu si vybereme "ATTinyCore by Spencle Konde" a přidáme do Arduina tlačítkem "instalace". V nastavení Arduino IDE je po těchto krocích možné využívat i jiné procesory než které jsou ve výchozí instalaci Arduina.
 TODO foto
 
-# Nahrání programu do desky - ICSP programátor
-Připojíme do konektoru ICSP desky servoventilu náš programátor (pokud ho nemáme zakoupený, můžeme si ho vyrobit dle [tohoto návodu](https://pihrt.com/elektronika/390-programator-atmel-isp-usbasp)).
-TODO + foto
+## Nahrání programu do desky - ICSP programátor
+Připojíme do konektoru ICSP desky servoventilu náš programátor (pokud ho nemáme zakoupený, můžeme si ho vyrobit dle [tohoto návodu](https://pihrt.com/elektronika/390-programator-atmel-isp-usbasp)). Při připojení programátoru nepoužíváme napájení z baterií (baterie odpojíme)
+
+
+## Verze FW
+* 1.1 novinky...
+* 1.0 výchozí verze programu .... bla bla
+
+## Verze HW
+* 1.0 15.1.2019 výchozí verze desky .... bla bla
 
 # Licence
+Na projektu se podílejí:
+HW Martin Pihrt - www.pihrt.com
+FW Martin Holcr - www.farmlab.cz 
+
 TODO něco z nabízených free nechám na tobě
 
 Pročti a uprav :-)
