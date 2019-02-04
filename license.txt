@@ -1,1 +1,19 @@
-cc-by-sa-4.0
+cc-by-sa-4.0 (https://creativecommons.org/licenses/by-sa/4.0/deed.cs)
+
+Toto je zkrácené, uživatelsky přívětivé znění plného textu licenčních podmínek (a jako takové licenci nenahrazuje). Prohlášení o vyloučení odpovědnosti.
+* Dílo smíte:
+Sdílet — rozmnožovat a distribuovat materiál prostřednictvím jakéhokoli média v jakémkoli formátu
+Upravit — remixovat, změnit a vyjít z původního díla pro jakýkoliv účel, a to i komerční.
+
+* Tato licence je vhodná pro díla Svobodné kultury
+Poskytovatel licence nemůže odvolat tato oprávnění do té doby, dokud dodržujete licenční podmínky.
+
+* Za těchto podmínek
+Uveďte původ — Je Vaší povinností uvést autorství, poskytnout s dílem odkaz na licenci a vyznačit Vámi provedené změny. Toho můžete docílit jakýmkoli rozumným způsobem, nicméně nikdy ne způsobem naznačujícím, že by poskytovatel licence schvaloval nebo podporoval Vás nebo Váš způsob užití díla.
+
+* Zachovejte licenci — Pokud budete toto dílo upravovat, pozměňovat nebo na něj navazovat, musíte svoje odvozená díla vystavovat pod stejnou licencí jako původní dílo.
+
+* Žádná další omezení — Nesmíte použít právní omezení nebo účinné technické prostředky ochrany, které by omezovaly ostatní v možnostech poskytnutých touto licencí.
+
+* Poznámky:
+Touto licencí se není třeba řídit ohledně částí materiálu, které jsou volným dílem, popř. v případech, které lze klasifikovat jako výjimku či omezení práva autorského. Nejsou poskytovány žádné záruky. Může se stát, že Vám licence neposkytne všechna oprávnění pro zamýšlené použití. Například další práva jako je ochrana osobních údajů, soukromí nebo osobnostních práv můžou limitovat použití tohoto díla. 
