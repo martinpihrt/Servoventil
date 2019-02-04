@@ -14,8 +14,10 @@ TODO Seriová linka bude fungovat pouze po dobu dokud je držené napájení z C
 
 ## Osazení desky spojů
 Deska byla vyrobena u https://www.allpcb.com/.
-[[https://github.com/martinpihrt/Servoventil/blob/master/FOTO/pcb_top.jpg|alt=top pcb foto]]
-[[https://github.com/martinpihrt/Servoventil/blob/master/FOTO/pcb_bot.jpg|alt=bot pcb foto]]
+* Pohled na desku TOP
+<a href="https://github.com/martinpihrt/Servoventil/blob/master/FOTO/pcb_top.jpg"><img src="https://github.com/martinpihrt/Servoventil/blob/master/FOTO/pcb_top.jpg" width="100%"></a><br>
+* Pohled na desku BOT
+<a href="https://github.com/martinpihrt/Servoventil/blob/master/FOTO/pcb_bot.jpg"><img src="https://github.com/martinpihrt/Servoventil/blob/master/FOTO/pcb_bot.jpg" width="100%"></a><br>
 První čím začneme je osazení SMD součástek z horní strany (TOP) a následně spodní (BOTTOM) strany. Po osazení SMD součástek zapájíme z horní strany THT (drátové) součástky. Před připojením napájení (baterie, nebo ICSP konektor) je potřeba desku pečlivě zkontrolovat na případné zkraty, nebo otočení součástek. Značení SMD rezistorů je následující: příklad text na rezistoru 1014 znamená 101 + 4 nuly tedy 101 0000 Ohmů, nebo 202 znamená 20 + 2 nuly tedy 20 00 Ohmů (2k).
 Před připojením baterií (5ks AA) připojíme (pokud máme) napájecí zdroj s proudovou pojistkou, kterou nastavíme na 100 mA při 6V. Servo není zatím k desce připojeno. Stiskneme a držíme tlačítko SW1 zmačknuté. Multimetrem (voltmetrem) změříme napětí na procesoru, nebo RTC, nebo stabilizátoru 3,3V. Napětí musí být cca 3,3V.
 
