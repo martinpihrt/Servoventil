@@ -33,10 +33,9 @@ Připojíme do konektoru ICSP desky servoventilu náš programátor (pokud ho ne
 * 1.0 15.1.2019 výchozí verze desky .... bla bla
 
 # Licence
+Creative Commons Attribution Share Alike 4.0
+cc-by-sa-4.0
+
 Na projektu se podílejí:
 HW Martin Pihrt - www.pihrt.com
 FW Martin Holcr - www.farmlab.cz 
-
-TODO něco z nabízených free nechám na tobě
-
-Pročti a uprav :-)
