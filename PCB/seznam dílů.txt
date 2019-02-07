@@ -67,10 +67,11 @@ a=3,3 THT 5mm
 dioda ochranná 1ks
 https://www.tme.eu/cz/details/stth4r02s/univerzalni-diody-smd/st-microelectronics/
 a=6,- DO214AB SMD
+!!! nesedi pouzdro -> dát jinou, která tam pasuje!!!
 
 ICSP konektor 1ks
 https://www.tme.eu/cz/details/zl231-10pg/konektory-idc/connfly/ds1013-10ssib1/
 a=2,2 2x5 pin THT
 
 TODO:
-upravit dle BOM po otestování desky
+upravit seznam dle BOM po otestování desky
