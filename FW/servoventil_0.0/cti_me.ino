@@ -5,6 +5,6 @@
    ATTinyCore\hardware\avr\1.2.2/avrdude.conf -v -pattiny1634 -cstk500v2 -Pusb -e -Uefuse:w:0b11111110:m -Uhfuse:w:0b11010110:m -Ulfuse:w:0xE2:m 
 
    Verze FW:
-   FW 0.0 Martin Pihrt - založení projektu
+   FW 0.0.0 Martin Pihrt - založení projektu
    FW x.x
  */
