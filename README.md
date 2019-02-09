@@ -56,6 +56,11 @@ HW Martin Pihrt - www.pihrt.com
 FW Martin Holcr - www.farmlab.cz 
 
 # Aktuálně, TODO
+## 9.2.2019
+* je otestováno: napájení serva (spínané přes FET), výstup PWM na servo, DIP spínače,
+* chybí otestovat: A/D měření napětí baterie (dokud nebude stabilní 3.3V nelze použít), výstup z RTC pro probuzení CPU, vyměnit typ stabilizátoru 3.3V za jiný 3.3V (chová se divně při změně napětí v rozsahu nad 5V)
+* upravit seznam součástek (z eshopu na web) a BOM dle skutečného stavu, změna stabilizátoru 3.3V, přidání kondenzátorů k LDO. Upravit hodnoty do Eagle.
+
 ## 7.2.2019
 * osazená deska spojů (3x) od Chiňana z 10ks
 * je otestováno: výpis na UART, ICSP programování, I2C sběrnice, nalezen obvod RTC na 0x68, zap tlačítkem, procesor sám sebe podrží (napájení), LED dioda
