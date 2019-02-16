@@ -9,11 +9,6 @@ https://www.tme.eu/cz/details/oky3393/moduly-rtc/okystar/
 a=48,- SO16-W odpájet z desky a dát do zaøízení jinak
 https://www.tme.eu/cz/details/ds3231sn/obvody-rtc/maxim-dallas/ds3231sn_/ (a=210,-)
 
-pryè
-MCP1825S-3302E/DB (stabil) 1ks
-https://www.tme.eu/cz/details/mcp1825s-3302ed/stabilizatory-napeti-neregulovane-ldo/microchip-technology/mcp1825s-3302edb/
-a=13,- SOT223
-
 ok
 DMP2100U-7 P-MOSFET (spinani napajeni) 1ks
 https://www.tme.eu/cz/details/dmp2100u-7/tranzistory-s-kanalem-p-smd/diodes-incorporated/
