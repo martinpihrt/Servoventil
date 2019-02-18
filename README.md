@@ -1,16 +1,24 @@
 # Servoventil
-Servoventil pro zalévací systém řízený procesorem ATTINY 1634 napájený z 5 AA baterií (celkem 6V). Zařízení je postavené z SMD součástek jako finální produkt za co nejméně peněz. Schéma zapojení obsahuje pouze nejnutněší součástky a procesor, který není zbytečně velký (rozměrově a programově). Deska obsahuje DIP spínač pro nastavení režimů.  Programovací konektor ICSP 2x5 pinů, LED signalizující vybité baterie, konektor pro připojení serva MG996R, startovací tlačítko, konektor pro sériovou linku (možnost komunikace s procesorem). Program pro procesor je napsán v prostředí Arduino IDE.
+Servoventil pro zalévací systém řízený procesorem ATTINY 1634 napájený z 5 AA baterií (celkem 6V). Zařízení je postavené z SMD součástek jako finální produkt za co nejméně peněz. Schéma zapojení obsahuje pouze nejnutněší součástky a procesor, který není zbytečně velký (rozměrově a programově). Deska obsahuje DIP spínač pro nastavení režimů.  Programovací konektor ICSP 2x5 pinů, LED signalizující vybité baterie, konektor pro připojení serva MG996R, startovací tlačítko, konektor pro sériovou linku (možnost komunikace s procesorem). Program pro procesor je napsán v prostředí Arduino IDE.  
+Cena celého zařízení vychází bez serva na cca 225 Kč.
 
 # Funkce
 ## Uvedení do provozu
-Po připojení napájení (5ks nabíjecí baterie AA 1,2V - celkem tedy 6V) čeká zařízení na stisk tlačítka. V tomto režimu neodebírá "téměř"" žádný proud z baterií (oba MOSFET tranzistory jsou udržovány uzavřené přes rezistory z kladného pólu). Časovač RTC ještě nebyl nastaven a má vloženu záložní baterii. Po stisknutí tlačítka na minimálně 1 sec se uzemní řídící vstup (gate) MOSFET tranzistoru, ten se otevře a přivede napájecí napětí 6V na stabilizátor 3,3V. Za stabilizátorem je připojen procesor ATTINY 1634, který provede toto:
+Po připojení napájení (5ks nabíjecí baterie AA 1,2V - celkem tedy 6-7V) čeká zařízení na stisk tlačítka. V tomto režimu neodebírá žádný proud z baterií (oba MOSFET tranzistory jsou udržovány uzavřené přes rezistory z kladného pólu). Časovač RTC ještě nebyl nastaven a má vloženu záložní baterii. Po stisknutí tlačítka na minimálně 1 sec se uzemní řídící vstup (gate) MOSFET tranzistoru, ten se otevře a přivede napájecí napětí 6V na stabilizátor 3,3V. Za stabilizátorem je připojen procesor ATTINY 1634, který provede toto:
 * sepne pomocný tranzistor, který podrží sepnutý (gate) u MOSFETu i po uvolnění tlačítka (čeká se na sériovou linku proto se musí tlačítko držet min. 1 sec).
 * změří napětí baterie (na AD vstupu procesoru je napětí z baterií 0-6V sníženo rezistorovým děličem na rozsah 0-3,3V). Napětí baterie se pohybuje (naprázdno) plně nabitého článku 1,4 V až napětí vybitého článku 1,0 V. Napětí pod 5V lze považovat za vybitý stav. Na AD vstupu naměříme hodnotu napětí (po zmenšení děličem) 2,6V. Pokud je baterie vybitá blikne LED diodou, pak nastaví na RTC alarm (například 10s), vypne pomocný tranzistor (tím se vypne napájení celého zařízení). RTC běží pouze z baterie a když je čas alarmu tak RTC přes svůj vnitřní tranzistor (otevřený kolektor) uzemní MOSFET napájení, který sepne napájení pro stabilizátor a CPU. CPU zase změří napájení (pokud je málo udělá to samé).
 * přečte nastavené DIP spínače, sepne na určitý čas servo (napájení serva přes MOSFET a generuje signál pro odpovýdající směr a rychlost serva na určitou dobu).
-TODO LED BAT možná svítí? nastaví do RTC požadovaný čas probuzení (alarm), vypne pomocný tranzistor (tím se vypne napájení celého zařízení). RTC běží pouze z malé baterie CRxxxx. TODO nevím jak to máš vymyšlené: on otevře servo a vypne se a po nějaké době zase servo zavře a vypne se? potom by se to muselo (změny) ukládat do EEPROM.
-TODO doplň sám jak to myslíš. 
-* zařízení lze kdykoliv probudit stisknutím tlačítka. Pokud bylo servo zavřené -> otevře se a opačně (jako ruční režim?)
-TODO Seriová linka bude fungovat pouze po dobu dokud je držené napájení z CPU do MOSFETu
+* nastaví čas (alarm) do RTC pro příští probuzení zařízení
+
+## DIP spínač má následující význam
+* pozice 1 ON -
+* pozice 1 OFF -
+* pozice 2 ON -
+* pozice 2 OFF -
+* pozice 3 ON -
+* pozice 3 OFF -
+* pozice 4 ON -
+* pozice 4 OFF -
 
 ## Osazení desky spojů
 Deska byla vyrobena u https://www.allpcb.com/.
@@ -34,18 +42,18 @@ Před připojením baterií (5ks AA) připojíme (pokud máme) napájecí zdroj 
 ## Přidání podpory pro procesor ATTINY 1634 do Arduino IDE
 Spustíme nainstalované Arduino v našem počítači a otevřeme záložku "Soubor -> vlastnosti" a do správce dalších desek URL přidáme tento odkaz
 http://drazzy.com/package_drazzy.com_index.json ze stránek [GitHub drazzy](https://github.com/SpenceKonde/ATTinyCore/blob/master/Installation.md). Následně potvrdíme tlačítkem "OK". Otevřeme v Arduinu záložku "Nástroje -> Vývojová deska -> Manažér desek" v otevřeném seznamu si vybereme "ATTinyCore by Spencle Konde" a přidáme do Arduina tlačítkem "instalace". V nastavení Arduino IDE je po těchto krocích možné využívat i jiné procesory než které jsou ve výchozí instalaci Arduina.
-TODO foto
+
 
 ## Nahrání programu do desky - ICSP programátor
 Připojíme do konektoru ICSP desky servoventilu náš programátor (pokud ho nemáme zakoupený, můžeme si ho vyrobit dle [tohoto návodu](https://pihrt.com/elektronika/390-programator-atmel-isp-usbasp)). Při připojení programátoru nepoužíváme napájení z baterií (baterie odpojíme)!
 
 
 # Verze FW
-* 1.1 novinky...
-* 1.0 výchozí verze programu .... bla bla
+* 1.0.0 výchozí verze programu 
+* 0.0.0 výchozí verze programu - test všech periferií
 
 # Verze HW
-* 1.0 15.1.2019 výchozí verze desky .... bla bla
+* 1.0 15.1.2019 výchozí verze desky 
 
 # Licence
 Creative Commons Attribution Share Alike 4.0
@@ -57,27 +65,17 @@ FW Martin Holcr - www.farmlab.cz
 
 # Aktuálně, TODO
 ## 18.2.2019
-* je otestováno: výstup z RTC pro probuzení CPU - test je 2 minuty probuzení (otočení servem), měření napětí baterie. Článek NiMh má 1,2 V. Napětí (naprázdno) plně nabitého článku je 1,4 V. Napětí vybitého článku je 1,0 V. Máme 5 článků -> napětí se bude pohybovat od 5V do 7V. Pod 5V je vybito.
-* upravit seznam součástek (z eshopu na web) a BOM dle skutečného stavu
-Výpis ze seriové linky (2 minuty probouzení)
-FW:0.0.0,18.2.2019,11:13:33
-RTC init...OK
-DIP1-4 init...OK
-DIP1=0 DIP2=1 DIP3=0 DIP4=1
-Baterie=5.86V
-Servo init...OK
-RTC nastavuji interval...OK
-Baterie=5.78V
-Baterie=5.85V
-Vypinam!
+* HW je otestován a plně funkční: pro test použit FW:0.0.0. Článek NiMh má 1,2 V. Napětí (naprázdno) plně nabitého článku je 1,4 V. Napětí vybitého článku je 1,0 V. Máme 5 článků -> napětí se bude pohybovat od 5V do 7V. Pod 5V je vybito LED blikne 2x krátce. Běží program - LED bliká rychle.
 
-## 9.2.2019
-* je otestováno: napájení serva (spínané přes FET), výstup PWM na servo, DIP spínače,
-* chybí otestovat: A/D měření napětí baterie (dokud nebude stabilní 3.3V nelze použít), výstup z RTC pro probuzení CPU, vyměnit typ stabilizátoru 3.3V za jiný 3.3V (chová se divně při změně napětí v rozsahu nad 5V)
-* upravit seznam součástek (z eshopu na web) a BOM dle skutečného stavu, změna stabilizátoru 3.3V, přidání kondenzátorů k LDO. Upravit hodnoty do Eagle.
+Výpis ze seriové linky (2 minuty probouzení)  
+FW:0.0.0,18.2.2019,11:13:33  
+RTC init...OK  
+DIP1-4 init...OK  
+DIP1=0 DIP2=1 DIP3=0 DIP4=1  
+Baterie=5.86V  
+Servo init...OK  
+RTC nastavuji interval...OK  
+Baterie=5.78V  
+Baterie=5.85V  
+Vypinam!  
 
-## 7.2.2019
-* osazená deska spojů (3x) od Chiňana z 10ks
-* je otestováno: výpis na UART, ICSP programování, I2C sběrnice, nalezen obvod RTC na 0x68, zap tlačítkem, procesor sám sebe podrží (napájení), LED dioda
-* chybí otestovat: napájení serva (spínané přes FET), výstup PWM na servo, A/D měření napětí baterie, výstup z RTC pro probuzení CPU.
-* upravit seznam součástek (z eshopu na web) a BOM dle skutečného stavu.
