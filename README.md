@@ -59,6 +59,17 @@ FW Martin Holcr - www.farmlab.cz
 ## 18.2.2019
 * je otestováno: výstup z RTC pro probuzení CPU - test je 2 minuty probuzení (otočení servem), měření napětí baterie. Článek NiMh má 1,2 V. Napětí (naprázdno) plně nabitého článku je 1,4 V. Napětí vybitého článku je 1,0 V. Máme 5 článků -> napětí se bude pohybovat od 5V do 7V. Pod 5V je vybito.
 * upravit seznam součástek (z eshopu na web) a BOM dle skutečného stavu
+Výpis ze seriové linky (2 minuty probouzení)
+FW:0.0.0,18.2.2019,11:13:33
+RTC init...OK
+DIP1-4 init...OK
+DIP1=0 DIP2=1 DIP3=0 DIP4=1
+Baterie=5.86V
+Servo init...OK
+RTC nastavuji interval...OK
+Baterie=5.78V
+Baterie=5.85V
+Vypinam!
 
 ## 9.2.2019
 * je otestováno: napájení serva (spínané přes FET), výstup PWM na servo, DIP spínače,
