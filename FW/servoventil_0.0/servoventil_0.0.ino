@@ -1,5 +1,5 @@
 // záložka cti_me!
-#define FW    "0.0.0"  // aktuální verze FW 
+#define FW    "0.0.0"  // aktuální verze FW 18.2.2019
 
 // přiřazení pinů na procesoru ATTINY 1634
 //#define SCK_SCL_PIN      12 // PC1 pin 16 pro info  (SCK je na stejném vodiči jako SCL)
@@ -9,33 +9,36 @@
 #define PWR_SERVO_ON_PIN   2  // PA6 pin 3  spíná napájení serva
 #define SERVO_PIN          3  // PA5 pin 4  výstup pro servo PWM
 #define PWR_ON_PIN         4  // PA4 pin 5  spíná samodržení napájení procesoru
-#define LOW_BAT_PIN        5  // PA3 pin 6  vstup z baterie, že je málé napájení baterie
+#define LOW_BAT_PIN        A0 // PA3 pin 6  jako A0 vstup z baterie, že je málé napájení baterie
 #define LED_LOWBAT_PIN     6  // PA2 pin 7  výstup pro LED, že je málé napájení baterie
 #define SW1_PIN            7  // PA1 pin 8  vstup DIP přepínač 1
 #define SW2_PIN            8  // PA0 pin 9  vstup DIP přepínač 2
 #define SW3_PIN            9  // PC5 pin 12 vstup DIP přepínač 3
 #define SW4_PIN            10 // PC4 pin 13 vstup DIP přepínač 4
 
+#include <avr/wdt.h>  // watchdog
+
 // UART
 #define USE_UART      // pokud není zakomentované používat sériovou linku (pro zakázání zakomentuj//)
-#define BAUD    9600  // výchozí rychlost sériové linky 9600bd
+#define BAUD   115200 // rychlost sériové linky 9600, 19200, 38400, bd
 #define DEBUG         // pokud není zakomentované používat na sériovou linku pomocné výpisy (pro zakázání zakomentuj//)
 
 // SERVO
 #define USE_SERVO     // pokud není zakomentované používat servo
-
+  
 // DS3231 (RTC na adrese 0x68)
 #define USE_DS3231    // pokud není zakomentované používat DS3231
+#define DS_ADDRESS  0x68 
+uint8_t SLEEP_PER = 2;  // nastavení intervalu spánku v minutách pro alarm v DS3231  
 
 // Měření napájení pomocí A/D
-#define USE_AD        // pokud není zakomentované používat měření napětí baterie pomocí AD
-#define VZORKY  10    // počet vzorků měření na AD
+#define USE_AD          // pokud není zakomentované používat měření napětí baterie pomocí AD
+#define MIN_BATT    5.0 // minimální napětí z baterií
+float volt;             // napětí z baterií
 
-
-int sum = 0;          // suma ze vzorků 
-unsigned char sample_count = 0; // aktuální vzorek (pomocná pro čítač)
-float voltage = 0.0;  // výsledné napětí
-
+// Časovač v loop
+unsigned long previousMillis =    0; // pomocná
+const long interval =            100; // interval časovače
 
 //*******************************************************************
 #ifdef DEBUG    
@@ -84,37 +87,39 @@ float voltage = 0.0;  // výsledné napětí
 
 #define BUILDTIME __TIME__    
 
+void getBATT(){
+ #ifdef USE_AD 
+   int in = analogRead(LOW_BAT_PIN);
+   volt = (in * 6.0) / 1024.0; // při 6V je za děličem 3.3V tedy 1023 max Ubat
+   #ifdef DEBUG
+     DPRINT("Baterie");
+     DPRINT("=");
+     DPRINT(volt);
+     DPRINTLN("V");
+   #endif
+ #endif
+}//konec void    
 
-void CheckSerial(){ // vzdálené nastavení serva
-  static int value = 0;
-  if (Serial.available()) {
-    char ch = Serial.read();
-    switch(ch) {
-      case 'A':
-        digitalWrite(PWR_SERVO_ON_PIN, HIGH);  // zapnout napájení serva
-        servo.attach(SERVO_PIN);               // aktivovat servo
-        #ifdef DEBUG
-           DPRINTLN("UART Servo pripojeno...");
-        #endif 
-        break;
-      case 'D':
-        digitalWrite(PWR_SERVO_ON_PIN, LOW);  // vypnout napájení serva
-        #ifdef DEBUG
-           DPRINTLN("UART Servo odpojeno...");
-        #endif
-        break;
-      case '0' ... '9':
-        value=(ch-'0')*20;                   // znak 0-9 vynásob 20 -> pozici lze nastavit 0,20,40,60,80,100,120,140,160,180
-        servo.write(value);
-        #ifdef DEBUG
-           DPRINT("UART Servo: ");
-           DPRINTLN(value);
-        #endif
-      break;
-    }
-  }
-}// konec void
-
+void set_next_alarm(void){
+    struct ts t;
+    unsigned char wakeup_min;
+    DS3231_get(&t);
+    // calculate the minute when the next alarm will be triggered
+    wakeup_min = (t.min / SLEEP_PER + 1) * SLEEP_PER;
+    if (wakeup_min > 59) wakeup_min -= 60; 
+    // flags define what calendar component to be checked against the current time in order
+    // to trigger the alarm
+    // A2M2 (minutes) (0 to enable, 1 to disable)
+    // A2M3 (hour)    (0 to enable, 1 to disable) 
+    // A2M4 (day)     (0 to enable, 1 to disable)
+    // DY/DT          (dayofweek == 1/dayofmonth == 0)
+    uint8_t flags[4] = { 0, 1, 1, 1 };
+    // set Alarm2. only the minute is set since we ignore the hour and day component
+    DS3231_set_a2(wakeup_min, 0, 0, flags);
+    // activate Alarm2
+    DS3231_set_creg(DS3231_CONTROL_INTCN | DS3231_CONTROL_A2IE);
+}//konec void 
+  
 //******************************************************************************************************************************
 
 void setup() { // nastavení
@@ -129,83 +134,139 @@ void setup() { // nastavení
   pinMode(SW4_PIN,INPUT_PULLUP);      // pin DIP4
   
   digitalWrite(PWR_ON_PIN,HIGH);      // podržet napájení (po uvolnění tlačítka
+  
   digitalWrite(PWR_SERVO_ON_PIN,LOW); // vypnout napájení serva
   digitalWrite(SERVO_PIN,LOW);        // vypnout výstup pro PWM serva      
-  digitalWrite(LED_LOWBAT_PIN,LOW);   // vypnout LED
-  
+  digitalWrite(LED_LOWBAT_PIN,HIGH);  // zapnout LED
+
+  wdt_enable(WDTO_2S);                // povolit watchdog ping 2s
+  wdt_reset();                        // vynulovat časovač pro wdt
   
   #ifdef USE_UART
      Serial.begin(BAUD);              // rychlost linky 
      delay(1000);                     // počkáme na UART
   #endif
+  wdt_reset();                        // vynulovat časovač pro wdt
   
   #ifdef DEBUG
+     DPRINTLN();
      DPRINT("FW:");
      DPRINT(FW);                      // verze FW
-     DPRINT(" ");
+     DPRINT(",");
      DPRINT(BUILDTM_DAY);             // den
      DPRINT(".");
      DPRINT(BUILDTM_MONTH);           // měsíc
      DPRINT(".");
      DPRINT(BUILDTM_YEAR);            // rok
-     DPRINT(" ");
+     DPRINT(",");
      DPRINTLN(BUILDTIME);             // čas kompilace  
   #endif  
 
-  #ifdef USE_SERVO
-     DPRINT("Servo init...");
-     pinMode(PWR_SERVO_ON_PIN,OUTPUT);      // napájení serva výstupní pin
-     digitalWrite(PWR_SERVO_ON_PIN, HIGH);  // zapnout napájení serva
-     servo.attach(SERVO_PIN);               // aktivovat servo
-     DPRINTLN("OK");
-  #endif
-
   #ifdef USE_DS3231 
-    DPRINT("RTC init...");
+    #ifdef DEBUG
+       DPRINT("RTC init...");
+    #endif   
     Wire.begin();                           // aktivace I2C 
-    DS3231_init(DS3231_CONTROL_INTCN);      // aktivace DS3231
-    DS3231_clear_a2f();                     // smazat příznak alarmu a nastavit pin INT na vysokou impedanci
-    DPRINTLN("OK");
+    Wire.beginTransmission(DS_ADDRESS);     // probuď zařízení na 0x68
+    if(Wire.endTransmission()==0) {         // test zda byla odpověď ze zařízení na adrese 0x68 (RTC DS3231)
+       DS3231_init(DS3231_CONTROL_INTCN);   // aktivace DS3231
+       DS3231_clear_a2f();                  // smazat příznak alarmu a nastavit pin INT na vysokou impedanci
+       #ifdef DEBUG
+          DPRINTLN("OK");
+       #endif   
+    }
+    else {
+      #ifdef DEBUG
+         DPRINT("Chyba RTC na adrese: ");
+         DPRINTLN(DS_ADDRESS);
+      #endif   
+    }
+  #endif  
+  
+  #ifdef DEBUG
+     DPRINT("DIP1-4 init...");
+     DPRINTLN("OK");
+     DPRINT("DIP1=");
+     DPRINT(digitalRead(SW1_PIN));DPRINT(" DIP2=");DPRINT(digitalRead(SW2_PIN));DPRINT(" DIP3=");DPRINT(digitalRead(SW3_PIN));DPRINT(" DIP4=");DPRINTLN(digitalRead(SW4_PIN));
   #endif
-
+  
   #ifdef USE_AD
-    DPRINT("Ubatt AD init...");
-    while (sample_count < VZORKY) {
-        int ad;
-        ad = analogRead(LOW_BAT_PIN);
-        sum += ad;
-        DPRINT("AD");
-        DPRINT(sample_count);
-        DPRINT("=");
-        DPRINTLN(ad);
-        sample_count++;
-        delay(10);
-    }//konec while
-    voltage = ((float)sum / (float)VZORKY * 3.3) / 1024.0; // výpočet napětí
-    // 3.3 je referenční napětí AD
-    DPRINT(voltage * 1.2);
-    // 1.2 dle děliče
-    DPRINTLN(" V");
-    sample_count = 0;
-    sum = 0;
-    while(voltage<5.0){ // je malé napětí baterie
+    getBATT();
+    if(volt<MIN_BATT) {
+      #ifdef DEBUG
+         DPRINTLN("Chyba - napeti baterie <5V!"); // pro výpis na UART
+      #endif
+    }// konec if
+    
+    while(volt<5.0){ // je malé napětí baterie budeme neustále točit a dál nic nebude dokud bat >5V
        digitalWrite(LED_LOWBAT_PIN,HIGH);   // zapnout LED
-       delay(100);
+       delay(50);
+       digitalWrite(LED_LOWBAT_PIN,LOW);    // vypnout LED
+       delay(50);
+       digitalWrite(LED_LOWBAT_PIN,HIGH);   // zapnout LED
+       delay(50);
        digitalWrite(LED_LOWBAT_PIN,LOW);    // vypnout LED
        delay(1000);
-    }
-    DPRINTLN("OK");
-  #endif
-
-  #ifdef DEBUG
-     DPRINTLN("INIT OK");      
-  #endif
-}//konec setup
-
-void loop() {
+       getBATT();
+       wdt_reset();                        // vynulovat časovač pro wdt
+    }//konec while
+    
+  #endif // AD
 
   #ifdef USE_SERVO
-     CheckSerial();                    // kontroluj zda je něco na serialu
-     SoftwareServo::refresh();         // obnova PWM pro servo
+     #ifdef DEBUG
+        DPRINT("Servo init...");
+     #endif
+     pinMode(PWR_SERVO_ON_PIN,OUTPUT);      // napájení serva výstupní pin
+     digitalWrite(PWR_SERVO_ON_PIN, HIGH);  // zapnout napájení serva
+     delay(100);
+     servo.attach(SERVO_PIN);               // aktivovat servo
+     #ifdef DEBUG
+        DPRINTLN("OK");
+     #endif
+  #endif  
+  
+  #ifdef USE_DS3231 
+    #ifdef DEBUG
+       DPRINT("RTC nastavuji interval...");
+    #endif
+//    set_next_alarm();                       // nastavit kdy se probudi CPU podle DIP
+    #ifdef DEBUG
+       DPRINTLN("OK");
+    #endif
   #endif
+      
+  digitalWrite(LED_LOWBAT_PIN,LOW);         // vypnout LED
+  wdt_reset();                        // vynulovat časovač pro wdt
+}//konec setup
+
+int test=0; // pro test níže v loop
+
+void loop(){
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= interval) { // časovač
+    previousMillis = currentMillis;
+// test serva, blikání LED, měření baterie
+    if(test==1 or test==90 or test==180) getBATT();  
+    digitalWrite(LED_LOWBAT_PIN,!digitalRead(LED_LOWBAT_PIN)); // blikame LED
+    if(test<180) test++;
+    if(test==180) {
+      set_next_alarm();                      // nastavit kdy se probudi CPU podle DIP
+      #ifdef DEBUG
+        DPRINT("Vypinam!");
+        delay(1000);
+        wdt_reset();                        // vynulovat časovač pro wdt
+      #endif
+      digitalWrite(SERVO_PIN,LOW);           // vypnout výstup pro PWM serva
+      digitalWrite(PWR_SERVO_ON_PIN,LOW);    // vypnout napájení serva
+      digitalWrite(PWR_ON_PIN,LOW);          // vypnout napájení CPU
+      while(1); // čekáme na reset od wdt
+    }
+  }//konec if
+    
+  #ifdef USE_SERVO
+     SoftwareServo::refresh();           // obnova pro servo
+     servo.write(test);
+  #endif
+  wdt_reset();                        // vynulovat časovač pro wdt
 }// konec loop
