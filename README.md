@@ -2,6 +2,9 @@
 Servoventil pro zalévací systém řízený procesorem ATTINY 1634 napájený z 5 AA baterií (celkem 6V). Zařízení je postavené z SMD součástek jako finální produkt za co nejméně peněz. Schéma zapojení obsahuje pouze nejnutněší součástky a procesor, který není zbytečně velký (rozměrově a programově). Deska obsahuje DIP spínač pro nastavení režimů.  Programovací konektor ICSP 2x5 pinů, LED signalizující vybité baterie, konektor pro připojení serva MG996R, startovací tlačítko, konektor pro sériovou linku (možnost komunikace s procesorem). Program pro procesor je napsán v prostředí Arduino IDE.  
 Cena celého zařízení vychází bez serva na cca 225 Kč.
 
+* Pohled na osazenou desku HW:1.0
+<a href="https://github.com/martinpihrt/Servoventil/blob/master/FOTO/final_1.0.jpg"><img src="https://github.com/martinpihrt/Servoventil/blob/master/FOTO/final_1.0" width="100%"></a><br>
+
 # Funkce
 ## Uvedení do provozu
 Po připojení napájení (5ks nabíjecí baterie AA 1,2V - celkem tedy 6-7V) čeká zařízení na stisk tlačítka. V tomto režimu neodebírá žádný proud z baterií (oba MOSFET tranzistory jsou udržovány uzavřené přes rezistory z kladného pólu). Časovač RTC ještě nebyl nastaven a má vloženu záložní baterii. Po stisknutí tlačítka na minimálně 1 sec se uzemní řídící vstup (gate) MOSFET tranzistoru, ten se otevře a přivede napájecí napětí 6V na stabilizátor 3,3V. Za stabilizátorem je připojen procesor ATTINY 1634, který provede toto:
