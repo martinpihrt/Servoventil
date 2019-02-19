@@ -3,15 +3,18 @@ Servoventil pro zalévací systém řízený procesorem ATTINY 1634 napájený z
 Cena celého zařízení vychází bez serva na cca 225 Kč.
 
 * Pohled na osazenou desku HW:1.0
-<a href="https://github.com/martinpihrt/Servoventil/blob/master/FOTO/final_1.0.jpg"><img src="https://github.com/martinpihrt/Servoventil/blob/master/FOTO/final_1.0" width="100%"></a><br>
+<a href="https://github.com/martinpihrt/Servoventil/blob/master/FOTO/final_1.0.jpg"><img src="https://github.com/martinpihrt/Servoventil/blob/master/FOTO/final_1.0.jpg" width="100%"></a><br>
+* Schéma zapojení HW:1.0
+<a href="https://github.com/martinpihrt/Servoventil/blob/master/PCB/Eagle 1.0/schema.png"><img src="https://github.com/martinpihrt/Servoventil/blob/master//PCB/Eagle 1.0/schema.png" width="100%"></a><br>
+
 
 # Funkce
 ## Uvedení do provozu
 Po připojení napájení (5ks nabíjecí baterie AA 1,2V - celkem tedy 6-7V) čeká zařízení na stisk tlačítka. V tomto režimu neodebírá žádný proud z baterií (oba MOSFET tranzistory jsou udržovány uzavřené přes rezistory z kladného pólu). Časovač RTC ještě nebyl nastaven a má vloženu záložní baterii. Po stisknutí tlačítka na minimálně 1 sec se uzemní řídící vstup (gate) MOSFET tranzistoru, ten se otevře a přivede napájecí napětí 6V na stabilizátor 3,3V. Za stabilizátorem je připojen procesor ATTINY 1634, který provede toto:
-* sepne pomocný tranzistor, který podrží sepnutý (gate) u MOSFETu i po uvolnění tlačítka (čeká se na sériovou linku proto se musí tlačítko držet min. 1 sec).
-* změří napětí baterie (na AD vstupu procesoru je napětí z baterií 0-6V sníženo rezistorovým děličem na rozsah 0-3,3V). Napětí baterie se pohybuje (naprázdno) plně nabitého článku 1,4 V až napětí vybitého článku 1,0 V. Napětí pod 5V lze považovat za vybitý stav. Na AD vstupu naměříme hodnotu napětí (po zmenšení děličem) 2,6V. Pokud je baterie vybitá blikne LED diodou, pak nastaví na RTC alarm (například 10s), vypne pomocný tranzistor (tím se vypne napájení celého zařízení). RTC běží pouze z baterie a když je čas alarmu tak RTC přes svůj vnitřní tranzistor (otevřený kolektor) uzemní MOSFET napájení, který sepne napájení pro stabilizátor a CPU. CPU zase změří napájení (pokud je málo udělá to samé).
+* sepne pomocný tranzistor, který podrží sepnutý (gate) u MOSFETu i po uvolnění tlačítka.
+* změří napětí baterie (na AD vstupu procesoru je napětí z baterií 0-6V sníženo rezistorovým děličem na rozsah 0-3,3V). Napětí baterie se pohybuje (naprázdno) plně nabitého článku 1,4 V až napětí vybitého článku 1,0 V. Napětí pod 5V lze považovat za vybitý stav. Na AD vstupu naměříme hodnotu napětí (po zmenšení děličem) 2,6V. Pokud je baterie vybitá bliká LED dioda. RTC běží pouze z baterie a když je čas alarmu tak RTC přes svůj vnitřní tranzistor (otevřený kolektor) uzemní MOSFET napájení, který sepne napájení pro stabilizátor a CPU. 
 * přečte nastavené DIP spínače, sepne na určitý čas servo (napájení serva přes MOSFET a generuje signál pro odpovýdající směr a rychlost serva na určitou dobu).
-* nastaví čas (alarm) do RTC pro příští probuzení zařízení
+* nastaví čas (alarm) do RTC pro příští probuzení zařízení.
 
 ## DIP spínač má následující význam
 * pozice 1 ON -

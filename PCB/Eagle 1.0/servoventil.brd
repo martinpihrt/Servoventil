@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.2.2">
+<eagle version="9.3.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="yes"/>
@@ -2276,7 +2276,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="60.43015" y="42.107815625" size="1.27" layer="26" font="vector" rot="MR0"/>
 <attribute name="VALUE" x="61.585409375" y="38.466209375" size="1.27" layer="28" rot="MR0"/>
 </element>
-<element name="D2" library="diode" library_urn="urn:adsk.eagle:library:210" package="DO214AA" package3d_urn="urn:adsk.eagle:package:43433/2" value="STTH4R02S  DO214AB" x="62.508728125" y="35.643034375" smashed="yes" rot="MR270">
+<element name="D2" library="diode" library_urn="urn:adsk.eagle:library:210" package="DO214AA" package3d_urn="urn:adsk.eagle:package:43433/2" value="STTH4R02U  DO214AA" x="62.508728125" y="35.643034375" smashed="yes" rot="MR270">
 <attribute name="NAME" x="63.07675" y="31.915190625" size="1.27" layer="26" ratio="10" rot="MR270"/>
 <attribute name="VALUE" x="70.294728125" y="52.253034375" size="1.27" layer="28" ratio="10" rot="MR270"/>
 </element>
@@ -2295,7 +2295,7 @@ design rules under a new name.</description>
 <attribute name="SPICEPREFIX" value="R" x="86.990440625" y="55.784934375" size="1.778" layer="28" rot="MR270" display="off"/>
 <attribute name="VALUE" x="89.530440625" y="57.054934375" size="1.27" layer="28" rot="MR270"/>
 </element>
-<element name="R2" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10k 1203" x="62.828553125" y="40.97374375" smashed="yes" rot="R270">
+<element name="R2" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10k 1206" x="62.828553125" y="40.97374375" smashed="yes" rot="R270">
 <attribute name="NAME" x="64.098553125" y="43.13549375" size="1.27" layer="25" font="vector" rot="R270"/>
 <attribute name="SPICEPREFIX" value="R" x="62.828553125" y="40.97374375" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="60.288553125" y="42.24374375" size="1.27" layer="27" rot="R270"/>
