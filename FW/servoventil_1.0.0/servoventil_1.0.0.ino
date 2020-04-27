@@ -1,5 +1,5 @@
 // záložka cti_me!
-#define FW    "1.0.0"  // aktuální verze FW 23.4.2020
+#define FW    "1.0.0"  // aktuální verze FW 27.4.2020
 
 // přiřazení pinů na procesoru ATTINY 1634
 //#define SCK_SCL_PIN            12   // PC1 pin 16 pro info  (SCK je na stejném vodiči jako SCL)
@@ -135,26 +135,41 @@ void read_DIP(){
   #endif
 }//konec void
 
+byte decToBcd(byte val){
+    return( (val/10*16) + (val%10) );
+}//konec byte
+
+void setDS3231time(byte second, byte minute, byte hour, byte dayOfWeek, byte dayOfMonth, byte month, byte year){
+    // sets time and date data to DS3231
+    // DS3231 seconds, minutes, hours, day, date, month, year
+    // setDS3231time(30,42,21,4,26,11,14);
+    Wire.beginTransmission(DS3231_I2C_ADDR); 
+    Wire.write(0); // set next input to start at the seconds register
+    Wire.write(decToBcd(second)); // set seconds
+    Wire.write(decToBcd(minute)); // set minutes
+    Wire.write(decToBcd(hour)); // set hours
+    Wire.write(decToBcd(dayOfWeek)); // set day of week (1=Sunday, 7=Saturday)
+    Wire.write(decToBcd(dayOfMonth)); // set date (1 to 31)
+    Wire.write(decToBcd(month)); // set month
+    Wire.write(decToBcd(year)); // set year (0 to 99)
+    Wire.endTransmission();
+}//konec void 
+
 void set_next_alarm(void){
   #ifdef USE_DS3231 
-    struct ts t;
-    unsigned char wakeup_hour, wakeup_min;
-    DS3231_get(&t);
-    
-    wakeup_hour = (t.hour / pocet_hodin + 1) * pocet_hodin;
-    if (wakeup_hour > 23) wakeup_hour -= 24; 
-    wakeup_min = (t.min / pocet_minut + 1) * pocet_minut;
-    if (wakeup_min > 59) wakeup_min -= 60; 
-    
+    // nastavime datum a cas na 0:0:1 1.1.2020
+    // DS3231 seconds, minutes, hours, day, date, month, year
+    setDS3231time(1,0,0,1,1,1,20);
+
     // flags define what calendar component to be checked against the current time in order
     // to trigger the alarm
     // A2M2 (minutes) (0 to enable, 1 to disable)
     // A2M3 (hour)    (0 to enable, 1 to disable) 
     // A2M4 (day)     (0 to enable, 1 to disable)
     // DY/DT          (dayofweek == 1/dayofmonth == 0)
-    uint8_t flags[4] = { 0, 0, 1, 1 };
+    byte flags[4] = { 0, 0, 1, 1 };
     // set Alarm2. only the minute is set since we ignore the hour and day component
-    DS3231_set_a2(wakeup_min, wakeup_hour, 0, flags);
+    DS3231_set_a2(pocet_minut, pocet_hodin, 0, flags);
     // activate Alarm2
     DS3231_set_creg(DS3231_CONTROL_INTCN | DS3231_CONTROL_A2IE);
   #endif 
